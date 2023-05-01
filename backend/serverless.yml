@@ -44,14 +44,7 @@ provider:
           Action:
             - xray:PutTelemetryRecords
             - xray:PutTraceSegments
-            - s3:*
-            - s3-object-lambda:*
-            # - 's3:PutBucketPolicy'
-            # - 's3:GetObject'
-            # - 's3:PutObject'
           Resource: '*'
-      # managedPolicies:
-      #   - 'arn:aws:iam::aws:policy/AmazonS3FullAccess/*'
 
 custom:
   documentation:
@@ -107,10 +100,10 @@ functions:
         Resource:
           - '*'
 
-  # # TODO: Configure this function -
-  # # Provide iamRoleStatements property. Decide the Actions and AWS Resource.
-  # # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
-  # # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
+  # TODO: Configure this function -
+  # Provide iamRoleStatements property. Decide the Actions and AWS Resource.
+  # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
+  # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -119,10 +112,10 @@ functions:
           method: post
           path: todos
           cors: true
-  #         authorizer: Auth
-  #         request:
-  #           schemas:
-  #             'application/json': ${file(models/create-todo-model.json)}
+          authorizer: Auth
+          request:
+            schemas:
+              'application/json': ${file(models/create-todo-model.json)}
     iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-create-todo-role-${self:provider.stage}
     iamRoleStatements:
       - Effect: Allow
@@ -136,8 +129,8 @@ functions:
         Resource:
           - '*'
 
-  # # TODO: Configure this function
-  # # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
+  # TODO: Configure this function
+  # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
@@ -163,8 +156,8 @@ functions:
         Resource:
           - '*'
 
-  # # TODO: Configure this function
-  # # Provide property for setting up CORS, Authorizer, iamRoleStatements
+  # TODO: Configure this function
+  # Provide property for setting up CORS, Authorizer, iamRoleStatements
 
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
@@ -187,8 +180,8 @@ functions:
         Resource:
           - '*'
 
-  # # TODO: Configure this function
-  # # Provide property for setting up CORS, Authorizer, iamRoleStatements
+  # TODO: Configure this function
+  # Provide property for setting up CORS, Authorizer, iamRoleStatements
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -285,8 +278,8 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
 
-    # # TODO: Complete the bucket properties below.
-    # # Do not forget to add the CorsConfiguration propoerty
+    # TODO: Complete the bucket properties below.
+    # Do not forget to add the CorsConfiguration propoerty
 
     # S3 Bucket
     AttachmentsBucket:
@@ -313,8 +306,8 @@ resources:
               AllowedHeaders:
                 - '*'
               MaxAge: 3000
-    # # TODO: Complete the policy below and attach it to the bucket defined above
-    # # For cross referencing the name of the bucket, use "!Ref AttachmentsBucket"
+    # TODO: Complete the policy below and attach it to the bucket defined above
+    # For cross referencing the name of the bucket, use "!Ref AttachmentsBucket"
 
     # S3 Attachments Bucket Policy
     BucketPolicy:
